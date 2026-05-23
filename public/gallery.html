@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inspiration Gallery — 3D Print Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <nav>
+      <div class="logo"><a href="index.html" class="logo-link"><img class="site-logo" src="images/vertex3d-logo.svg" alt="Vertex3D"></a></div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="custom-print.html">Custom Print</a></li>
+        <li><a href="gallery.html" aria-current="page">Gallery</a></li>
+      </ul>
+      <button class="cart-button" id="cart-button" type="button" aria-label="Open cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/>
+          <circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="cart-count" id="cart-count" hidden>0</span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="gallery">
+      <h2>Inspiration Gallery</h2>
+      <p class="section-intro">Explore what 3D printing can do. Pick a design you like and request a Custom Print.</p>
+
+      <div class="gallery-grid">
+        <article class="gallery-item"
+                 data-title="Articulated Dragon"
+                 data-description="A flexible, jointed dragon you can pose. Prints in one piece without supports."
+                 data-category="Toys"
+                 data-image="images/gallery/articulated-dragon.png">
+          <div class="gallery-image">
+            <img src="images/gallery/articulated-dragon.png" alt="Articulated Dragon" loading="lazy">
+          </div>
+          <div class="gallery-info">
+            <h3>Articulated Dragon</h3>
+            <span class="gallery-category">Toys</span>
+          </div>
+        </article>
+
+        <article class="gallery-item"
+                 data-title="Voronoi Lampshade"
+                 data-description="Organic geometric pattern that casts dramatic shadows on the walls."
+                 data-category="Home"
+                 data-image="images/gallery/voronoi-lampshade.png">
+          <div class="gallery-image">
+            <img src="images/gallery/voronoi-lampshade.png" alt="Voronoi Lampshade" loading="lazy">
+          </div>
+          <div class="gallery-info">
+            <h3>Voronoi Lampshade</h3>
+            <span class="gallery-category">Home</span>
+          </div>
+        </article>
+
+        <article class="gallery-item"
+                 data-title="Phone Dock"
+                 data-description="Wireless charger holder with built-in cable management."
+                 data-category="Tech"
+                 data-image="images/products/phone-dock.png">
+          <div class="gallery-image">
+            <img src="images/products/phone-dock.png" alt="Phone Dock" loading="lazy">
+          </div>
+          <div class="gallery-info">
+            <h3>Phone Dock</h3>
+            <span class="gallery-category">Tech</span>
+          </div>
+        </article>
+
+        <article class="gallery-item"
+                 data-title="Hex Wall Planter"
+                 data-description="Modular hexagonal pots that combine into vertical gardens."
+                 data-category="Home"
+                 data-image="images/gallery/hex-wall-planter.png">
+          <div class="gallery-image">
+            <img src="images/gallery/hex-wall-planter.png" alt="Hex Wall Planter" loading="lazy">
+          </div>
+          <div class="gallery-info">
+            <h3>Hex Wall Planter</h3>
+            <span class="gallery-category">Home</span>
+          </div>
+        </article>
+
+        <article class="gallery-item"
+                 data-title="Mini Robot"
+                 data-description="Posable figure with friction joints, no assembly needed."
+                 data-category="Toys"
+                 data-image="images/gallery/mini-robot.png">
+          <div class="gallery-image">
+            <img src="images/gallery/mini-robot.png" alt="Mini Robot" loading="lazy">
+          </div>
+          <div class="gallery-info">
+            <h3>Mini Robot</h3>
+            <span class="gallery-category">Toys</span>
+          </div>
+        </article>
+
+        <article class="gallery-item"
+                 data-title="Cable Bridge"
+                 data-description="Snap-on cable router for desk edges. Keeps your workspace tidy."
+                 data-category="Tools"
+                 data-image="images/gallery/cable-bridge.png">
+          <div class="gallery-image">
+            <img src="images/gallery/cable-bridge.png" alt="Cable Bridge" loading="lazy">
+          </div>
+          <div class="gallery-info">
+            <h3>Cable Bridge</h3>
+            <span class="gallery-category">Tools</span>
+          </div>
+        </article>
+
+        <article class="gallery-item"
+                 data-title="Lithophane Photo"
+                 data-description="A 3D-printed panel that reveals a photograph when backlit."
+                 data-category="Art"
+                 data-image="images/gallery/lithophane-photo.png">
+          <div class="gallery-image">
+            <img src="images/gallery/lithophane-photo.png" alt="Lithophane Photo" loading="lazy">
+          </div>
+          <div class="gallery-info">
+            <h3>Lithophane Photo</h3>
+            <span class="gallery-category">Art</span>
+          </div>
+        </article>
+
+        <article class="gallery-item"
+                 data-title="Spiral Vase"
+                 data-description="Single-wall print in vase mode. Lightweight and elegant."
+                 data-category="Home"
+                 data-image="images/products/vase.png">
+          <div class="gallery-image">
+            <img src="images/products/vase.png" alt="Spiral Vase" loading="lazy">
+          </div>
+          <div class="gallery-info">
+            <h3>Spiral Vase</h3>
+            <span class="gallery-category">Home</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-col footer-brand">
+        <div class="footer-logo"><img class="footer-logo-image" src="images/vertex3d-logo.svg" alt="Vertex3D"></div>
+        <p>Made with love and a 3D printer.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="custom-print.html">Custom Print</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 3D Print Shop. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <div class="drawer-overlay" id="drawer-overlay" hidden data-drawer-close></div>
+
+  <aside class="drawer" id="cart-drawer" hidden aria-hidden="true">
+    <header class="drawer-header">
+      <h3>Your Cart</h3>
+      <button class="drawer-close" type="button" aria-label="Close" data-drawer-close>×</button>
+    </header>
+    <div class="drawer-body">
+      <div class="cart-empty" id="cart-empty">
+        <p>Your cart is empty.</p>
+      </div>
+      <ul class="cart-items" id="cart-items"></ul>
+    </div>
+    <footer class="drawer-footer" id="cart-footer" hidden>
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span id="cart-subtotal-value">$0</span>
+      </div>
+      <button class="primary-button" id="checkout-button" type="button">Proceed to Checkout</button>
+    </footer>
+  </aside>
+
+  <aside class="drawer" id="checkout-drawer" hidden aria-hidden="true">
+    <header class="drawer-header">
+      <button class="drawer-back" type="button" aria-label="Back to cart" id="checkout-back">←</button>
+      <h3>Checkout</h3>
+      <button class="drawer-close" type="button" aria-label="Close" data-drawer-close>×</button>
+    </header>
+    <div class="drawer-body">
+      <form class="checkout-form" id="checkout-form" novalidate>
+        <div class="form-row">
+          <label for="checkout-name">Full name</label>
+          <input type="text" id="checkout-name" name="name" required>
+        </div>
+        <div class="form-row">
+          <label for="checkout-email">Email</label>
+          <input type="email" id="checkout-email" name="email" required>
+        </div>
+        <div class="form-row">
+          <label for="checkout-address">Shipping address</label>
+          <textarea id="checkout-address" name="address" rows="3" required placeholder="Street, city, postal code, country"></textarea>
+        </div>
+        <div class="checkout-summary" id="checkout-summary"></div>
+        <button type="submit" class="primary-button">Pay with Card</button>
+      </form>
+    </div>
+  </aside>
+
+  <aside class="drawer" id="success-drawer" hidden aria-hidden="true">
+    <header class="drawer-header">
+      <h3>Order placed</h3>
+      <button class="drawer-close" type="button" aria-label="Close" data-drawer-close>×</button>
+    </header>
+    <div class="drawer-body">
+      <div class="order-success">
+        <span class="order-success-icon">✓</span>
+        <h4>Thank you!</h4>
+        <p>Your order <strong id="order-number"></strong> has been placed.</p>
+        <p class="muted">You'll receive a confirmation email shortly.</p>
+        <button class="primary-button" type="button" data-drawer-close>Continue shopping</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="lightbox" id="lightbox" hidden aria-hidden="true" role="dialog">
+    <div class="lightbox-overlay" data-lightbox-close></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" type="button" aria-label="Close" data-lightbox-close>×</button>
+      <div class="lightbox-image">
+        <img id="lightbox-image-el" src="" alt="" loading="lazy">
+      </div>
+      <div class="lightbox-info">
+        <span class="lightbox-category"></span>
+        <h3 class="lightbox-title"></h3>
+        <p class="lightbox-description"></p>
+        <a href="custom-print.html" class="lightbox-cta" data-lightbox-close>Request a Custom Print</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

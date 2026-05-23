@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Vertex3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header class="admin-header">
+    <a class="admin-logo-link" href="../index.html">
+      <img src="../images/vertex3d-logo.svg" alt="Vertex3D">
+    </a>
+    <div class="admin-header-actions">
+      <a href="../index.html">View Site</a>
+      <button type="button" id="logout-button">Log Out</button>
+    </div>
+  </header>
+
+  <main class="admin-layout">
+    <section class="dashboard-hero">
+      <div>
+        <p class="eyebrow">Admin Panel</p>
+        <h1>Manage Vertex3D</h1>
+      </div>
+      <div class="admin-stats">
+        <div>
+          <span id="stat-products">0</span>
+          <p>Products</p>
+        </div>
+        <div>
+          <span id="stat-requests">0</span>
+          <p>Requests</p>
+        </div>
+        <div>
+          <span id="stat-orders">0</span>
+          <p>Orders</p>
+        </div>
+      </div>
+    </section>
+
+    <nav class="admin-tabs" aria-label="Admin sections">
+      <button class="tab-button active" type="button" data-tab="products">Products</button>
+      <button class="tab-button" type="button" data-tab="requests">Custom Print Requests</button>
+      <button class="tab-button" type="button" data-tab="orders">Orders</button>
+    </nav>
+
+    <section class="tab-panel active" id="products-panel">
+      <div class="panel-grid">
+        <form class="admin-card product-form" id="product-form" novalidate>
+          <div class="section-heading">
+            <h2 id="product-form-title">Add Product</h2>
+            <button class="secondary-button" id="reset-product-form" type="button">Reset</button>
+          </div>
+          <input type="hidden" id="editing-product-id">
+
+          <div class="form-row">
+            <label for="product-id">ID</label>
+            <input type="text" id="product-id" required placeholder="new-product-id">
+          </div>
+          <div class="form-row">
+            <label for="product-name">Name</label>
+            <input type="text" id="product-name" required>
+          </div>
+          <div class="form-row">
+            <label for="product-price">Price</label>
+            <input type="number" id="product-price" min="0" step="1" required>
+          </div>
+          <div class="form-row">
+            <label for="product-image">Image path</label>
+            <input type="text" id="product-image" placeholder="images/products/example.jpg">
+          </div>
+          <div class="form-row">
+            <label for="product-description">Description</label>
+            <textarea id="product-description" rows="3"></textarea>
+          </div>
+          <div class="form-row">
+            <label for="product-features">Features</label>
+            <textarea id="product-features" rows="5" placeholder="One feature per line"></textarea>
+          </div>
+          <label class="checkbox-row">
+            <input type="checkbox" id="product-featured">
+            <span>Featured on home page</span>
+          </label>
+          <button class="primary-button" type="submit">Save Product</button>
+          <p class="admin-message" id="product-message" aria-live="polite"></p>
+        </form>
+
+        <section class="admin-card">
+          <div class="section-heading">
+            <h2>Products</h2>
+            <button class="secondary-button" id="refresh-products" type="button">Refresh</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Featured</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="products-table"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="requests-panel">
+      <section class="admin-card">
+        <div class="section-heading">
+          <h2>Custom Print Requests</h2>
+          <button class="secondary-button" id="refresh-requests" type="button">Refresh</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>File</th>
+                <th>Notes</th>
+                <th>Created</th>
+              </tr>
+            </thead>
+            <tbody id="requests-table"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section class="tab-panel" id="orders-panel">
+      <section class="admin-card">
+        <div class="section-heading">
+          <h2>Orders</h2>
+          <button class="secondary-button" id="refresh-orders" type="button">Refresh</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Created</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>

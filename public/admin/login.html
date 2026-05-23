@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — Vertex3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-auth-page">
+  <main class="auth-shell">
+    <a class="admin-logo-link" href="../index.html">
+      <img src="../images/vertex3d-logo.svg" alt="Vertex3D">
+    </a>
+    <section class="auth-card">
+      <h1>Admin Login</h1>
+      <p>Enter the admin password to manage products, requests, and orders.</p>
+      <form id="admin-login-form" novalidate>
+        <label for="admin-password">Password</label>
+        <input type="password" id="admin-password" name="password" autocomplete="current-password" required autofocus>
+        <button type="submit">Log In</button>
+        <p class="admin-message" id="login-message" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+  <script src="admin.js"></script>
+</body>
+</html>

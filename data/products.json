@@ -1,0 +1,65 @@
+[
+  {
+    "id": "phone-stand",
+    "name": "Phone Stand",
+    "description": "Holds your phone at a comfortable viewing angle.",
+    "features": ["Universal: fits phones from 3 to 7 inches", "Adjustable viewing angle", "Anti-slip rubber base", "Available in matte black, white, or gray"],
+    "price": 12,
+    "image": "images/products/phone-stand.jpg",
+    "featured": true
+  },
+  {
+    "id": "headphone-hook",
+    "name": "Headphone Hook",
+    "description": "Mounts under your desk to keep headphones off the surface.",
+    "features": ["Mounts in seconds with strong adhesive", "Holds headphones up to 1 kg", "Cable routing groove on top", "No drilling required"],
+    "price": 8,
+    "image": "images/products/headphone-hook.jpg",
+    "featured": false
+  },
+  {
+    "id": "cable-organizer",
+    "name": "Cable Organizer",
+    "description": "Clips for routing cables along desk edges.",
+    "features": ["Set of 8 snap-on clips", "Fits cables up to 8 mm thick", "Reusable: peel and reposition", "Holds power and data cables"],
+    "price": 6,
+    "image": "images/products/cable-organizer.jpg",
+    "featured": false
+  },
+  {
+    "id": "desk-plant-pot",
+    "name": "Desk Plant Pot",
+    "description": "Geometric pot for small succulents.",
+    "features": ["Geometric faceted design", "Drainage hole included", "Fits succulents up to 4 inches", "Stable flat base"],
+    "price": 15,
+    "image": "images/products/desk-plant-pot.jpg",
+    "featured": false
+  },
+  {
+    "id": "custom-keychain",
+    "name": "Custom Keychain",
+    "description": "Pick a shape and a color, get it printed.",
+    "features": ["Personalized text or shape", "Durable PLA+ material", "30+ color options", "Includes metal keyring"],
+    "price": 5,
+    "image": "images/products/custom-keychain.jpg",
+    "featured": false
+  },
+  {
+    "id": "pen-holder",
+    "name": "Pen Holder",
+    "description": "Hex-pattern cup for pens and stationery.",
+    "features": ["Hexagonal honeycomb pattern", "Holds 12+ pens and pencils", "Stable weighted base", "Compact desk footprint"],
+    "price": 10,
+    "image": "images/products/pen-holder.jpg",
+    "featured": true
+  },
+  {
+    "id": "hex-wall-planter",
+    "name": "Hex Wall Planter",
+    "description": "Modular hexagonal pots that combine into vertical gardens.",
+    "features": ["Modular hexagonal design", "Pre-drilled mounting holes", "Combines into honeycomb patterns", "Sized for small succulents"],
+    "price": 18,
+    "image": "images/products/hex-wall-planter.jpg",
+    "featured": true
+  }
+]

@@ -1,0 +1,11 @@
+<svg width="600" height="190" viewBox="0 0 600 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="190" fill="#0a0a0a"/>
+  <g transform="translate(72 46)">
+    <path d="M52 0L104 96H0L52 0Z" fill="#ff6b35"/>
+    <path d="M52 0L84 82L52 66V0Z" fill="#ff8a4c"/>
+    <path d="M52 0L52 66L18 82L52 0Z" fill="#ff4a1f"/>
+    <path d="M18 82L52 66L84 82L104 96H0L18 82Z" fill="#d93a18"/>
+    <path d="M52 66L84 82L52 96L18 82L52 66Z" fill="#ff7a3d"/>
+  </g>
+  <text x="170" y="118" fill="#f5f5f5" font-family="Inter, Arial, Helvetica, sans-serif" font-size="72" font-weight="800" letter-spacing="-2">Vertex3D</text>
+</svg>

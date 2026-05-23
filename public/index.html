@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Print Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <nav>
+      <div class="logo"><a href="index.html" class="logo-link"><img class="site-logo" src="images/vertex3d-logo.svg" alt="Vertex3D"></a></div>
+      <ul>
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="custom-print.html">Custom Print</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+      </ul>
+      <button class="cart-button" id="cart-button" type="button" aria-label="Open cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/>
+          <circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="cart-count" id="cart-count" hidden>0</span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero hero-bento">
+      <div class="hero-text">
+        <h1>Print your ideas in 3D</h1>
+        <p class="hero-tagline">Custom prints, ready-made items, and inspiration — all in one place.</p>
+        <a href="shop.html" class="primary-button hero-cta">Browse Shop</a>
+      </div>
+      <div class="hero-image">
+        <img src="images/hero/hero-3d-printing.png" alt="3D printed objects" loading="lazy">
+      </div>
+    </section>
+
+    <section class="trust-band">
+      <div class="trust-item">
+        <span class="trust-icon" aria-hidden="true">⚡</span>
+        <div>
+          <h4>Fast shipping</h4>
+          <p>Ready-made items ship within 48 hours.</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon" aria-hidden="true">✓</span>
+        <div>
+          <h4>Quality guaranteed</h4>
+          <p>Each print is inspected before shipping.</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon" aria-hidden="true">↩</span>
+        <div>
+          <h4>Easy returns</h4>
+          <p>Not happy? Return within 14 days.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="featured">
+      <h2>Featured Products</h2>
+      <a class="see-all-link" href="shop.html">See all products</a>
+      <div class="product-grid featured-grid" id="featured-grid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-col footer-brand">
+        <div class="footer-logo"><img class="footer-logo-image" src="images/vertex3d-logo.svg" alt="Vertex3D"></div>
+        <p>Made with love and a 3D printer.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="custom-print.html">Custom Print</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 3D Print Shop. All rights reserved.</span>
+      <a href="admin/login.html" class="admin-secret-link" aria-label="">·</a>
+    </div>
+  </footer>
+
+  <div class="drawer-overlay" id="drawer-overlay" hidden data-drawer-close></div>
+
+  <aside class="drawer" id="cart-drawer" hidden aria-hidden="true">
+    <header class="drawer-header">
+      <h3>Your Cart</h3>
+      <button class="drawer-close" type="button" aria-label="Close" data-drawer-close>×</button>
+    </header>
+    <div class="drawer-body">
+      <div class="cart-empty" id="cart-empty">
+        <p>Your cart is empty.</p>
+      </div>
+      <ul class="cart-items" id="cart-items"></ul>
+    </div>
+    <footer class="drawer-footer" id="cart-footer" hidden>
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span id="cart-subtotal-value">$0</span>
+      </div>
+      <button class="primary-button" id="checkout-button" type="button">Proceed to Checkout</button>
+    </footer>
+  </aside>
+
+  <aside class="drawer" id="checkout-drawer" hidden aria-hidden="true">
+    <header class="drawer-header">
+      <button class="drawer-back" type="button" aria-label="Back to cart" id="checkout-back">←</button>
+      <h3>Checkout</h3>
+      <button class="drawer-close" type="button" aria-label="Close" data-drawer-close>×</button>
+    </header>
+    <div class="drawer-body">
+      <form class="checkout-form" id="checkout-form" novalidate>
+        <div class="form-row">
+          <label for="checkout-name">Full name</label>
+          <input type="text" id="checkout-name" name="name" required>
+        </div>
+        <div class="form-row">
+          <label for="checkout-email">Email</label>
+          <input type="email" id="checkout-email" name="email" required>
+        </div>
+        <div class="form-row">
+          <label for="checkout-address">Shipping address</label>
+          <textarea id="checkout-address" name="address" rows="3" required placeholder="Street, city, postal code, country"></textarea>
+        </div>
+        <div class="checkout-summary" id="checkout-summary"></div>
+        <button type="submit" class="primary-button">Pay with Card</button>
+      </form>
+    </div>
+  </aside>
+
+  <aside class="drawer" id="success-drawer" hidden aria-hidden="true">
+    <header class="drawer-header">
+      <h3>Order placed</h3>
+      <button class="drawer-close" type="button" aria-label="Close" data-drawer-close>×</button>
+    </header>
+    <div class="drawer-body">
+      <div class="order-success">
+        <span class="order-success-icon">✓</span>
+        <h4>Thank you!</h4>
+        <p>Your order <strong id="order-number"></strong> has been placed.</p>
+        <p class="muted">You'll receive a confirmation email shortly.</p>
+        <button class="primary-button" type="button" data-drawer-close>Continue shopping</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="product-modal" id="product-modal" hidden aria-hidden="true" role="dialog">
+    <div class="product-modal-overlay" data-product-modal-close></div>
+    <div class="product-modal-content">
+      <button class="product-modal-close" type="button" aria-label="Close" data-product-modal-close>×</button>
+      <div class="product-modal-grid">
+        <div class="product-modal-image">
+          <img id="product-modal-img" src="" alt="" loading="lazy">
+        </div>
+        <div class="product-modal-info">
+          <h2 class="product-modal-title" id="product-modal-title"></h2>
+          <p class="product-modal-description" id="product-modal-description"></p>
+          <ul class="product-modal-features" id="product-modal-features"></ul>
+          <div class="product-modal-footer">
+            <span class="product-modal-price" id="product-modal-price"></span>
+            <button class="primary-button product-modal-add" id="product-modal-add" type="button">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

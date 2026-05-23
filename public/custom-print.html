@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Print — 3D Print Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <nav>
+      <div class="logo"><a href="index.html" class="logo-link"><img class="site-logo" src="images/vertex3d-logo.svg" alt="Vertex3D"></a></div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="custom-print.html" aria-current="page">Custom Print</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+      </ul>
+      <button class="cart-button" id="cart-button" type="button" aria-label="Open cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/>
+          <circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="cart-count" id="cart-count" hidden>0</span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="custom-print">
+      <h2>Custom Print</h2>
+      <p class="section-intro">Upload your 3D model and we'll print it for you.</p>
+
+      <div class="how-it-works">
+        <div class="step">
+          <span class="step-number">1</span>
+          <h3>Upload</h3>
+          <p>Send us your 3D model file (.stl, .obj, .3mf)</p>
+        </div>
+        <div class="step">
+          <span class="step-number">2</span>
+          <h3>Review</h3>
+          <p>We confirm pricing and printing time within 24 hours</p>
+        </div>
+        <div class="step">
+          <span class="step-number">3</span>
+          <h3>Print & Ship</h3>
+          <p>We print your model and ship it to you</p>
+        </div>
+      </div>
+
+      <form class="custom-print-form" id="custom-print-form" novalidate>
+        <div class="file-drop" id="file-drop">
+          <input type="file" id="file-input" accept=".stl,.obj,.3mf" hidden>
+          <div class="file-drop-empty">
+            <span class="file-drop-icon">⬆</span>
+            <p class="file-drop-text">Drag your 3D model here or click to select</p>
+            <p class="file-drop-hint">.stl, .obj, .3mf — up to 50 MB</p>
+          </div>
+          <div class="file-drop-selected" hidden>
+            <span class="file-name"></span>
+            <span class="file-size"></span>
+            <button type="button" class="file-remove">Remove</button>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="email">Your email</label>
+          <input type="email" id="email" name="email" required placeholder="you@example.com">
+        </div>
+
+        <div class="form-row">
+          <label for="notes">Notes (optional)</label>
+          <textarea id="notes" name="notes" rows="4" placeholder="Material preferences, color, size, special instructions..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-button">Request a Quote</button>
+
+        <div class="form-success" hidden>
+          <p>Thanks! We received your request and will get back to you within 24 hours.</p>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-col footer-brand">
+        <div class="footer-logo"><img class="footer-logo-image" src="images/vertex3d-logo.svg" alt="Vertex3D"></div>
+        <p>Made with love and a 3D printer.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="custom-print.html">Custom Print</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 3D Print Shop. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <div class="drawer-overlay" id="drawer-overlay" hidden data-drawer-close></div>
+
+  <aside class="drawer" id="cart-drawer" hidden aria-hidden="true">
+    <header class="drawer-header">
+      <h3>Your Cart</h3>
+      <button class="drawer-close" type="button" aria-label="Close" data-drawer-close>×</button>
+    </header>
+    <div class="drawer-body">
+      <div class="cart-empty" id="cart-empty">
+        <p>Your cart is empty.</p>
+      </div>
+      <ul class="cart-items" id="cart-items"></ul>
+    </div>
+    <footer class="drawer-footer" id="cart-footer" hidden>
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span id="cart-subtotal-value">$0</span>
+      </div>
+      <button class="primary-button" id="checkout-button" type="button">Proceed to Checkout</button>
+    </footer>
+  </aside>
+
+  <aside class="drawer" id="checkout-drawer" hidden aria-hidden="true">
+    <header class="drawer-header">
+      <button class="drawer-back" type="button" aria-label="Back to cart" id="checkout-back">←</button>
+      <h3>Checkout</h3>
+      <button class="drawer-close" type="button" aria-label="Close" data-drawer-close>×</button>
+    </header>
+    <div class="drawer-body">
+      <form class="checkout-form" id="checkout-form" novalidate>
+        <div class="form-row">
+          <label for="checkout-name">Full name</label>
+          <input type="text" id="checkout-name" name="name" required>
+        </div>
+        <div class="form-row">
+          <label for="checkout-email">Email</label>
+          <input type="email" id="checkout-email" name="email" required>
+        </div>
+        <div class="form-row">
+          <label for="checkout-address">Shipping address</label>
+          <textarea id="checkout-address" name="address" rows="3" required placeholder="Street, city, postal code, country"></textarea>
+        </div>
+        <div class="checkout-summary" id="checkout-summary"></div>
+        <button type="submit" class="primary-button">Pay with Card</button>
+      </form>
+    </div>
+  </aside>
+
+  <aside class="drawer" id="success-drawer" hidden aria-hidden="true">
+    <header class="drawer-header">
+      <h3>Order placed</h3>
+      <button class="drawer-close" type="button" aria-label="Close" data-drawer-close>×</button>
+    </header>
+    <div class="drawer-body">
+      <div class="order-success">
+        <span class="order-success-icon">✓</span>
+        <h4>Thank you!</h4>
+        <p>Your order <strong id="order-number"></strong> has been placed.</p>
+        <p class="muted">You'll receive a confirmation email shortly.</p>
+        <button class="primary-button" type="button" data-drawer-close>Continue shopping</button>
+      </div>
+    </div>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
