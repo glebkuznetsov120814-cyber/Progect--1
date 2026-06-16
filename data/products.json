@@ -61,5 +61,14 @@
     "price": 18,
     "image": "images/products/hex-wall-planter.jpg",
     "featured": true
+  },
+  {
+    "id": "flexi-axolotl",
+    "name": "Flexi Axolotl",
+    "description": "Flexible articulated print with a playful axolotl-inspired shape.",
+    "features": ["Flexible articulated design", "Print-in-place joints", "Smooth desk toy motion", "Great for gifts and collectors"],
+    "price": 14,
+    "image": "images/products/axolotl.png",
+    "featured": true
   }
 ]
