@@ -1429,3 +1429,48 @@ body.product-modal-open {
   color: var(--accent);
   opacity: 0.75;
 }
+
+@media (max-width: 768px) {
+  header nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 12px;
+    justify-content: space-between;
+    text-align: initial;
+  }
+
+  header nav .logo {
+    order: 1;
+    flex: 0 1 auto;
+  }
+
+  header nav .site-logo {
+    width: min(220px, calc(100vw - 120px));
+    height: auto;
+  }
+
+  header nav .cart-button {
+    order: 2;
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+
+  header nav ul {
+    order: 99;
+    display: flex;
+    flex: 1 0 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  header nav ul li a,
+  header nav ul a {
+    padding: 8px 12px;
+    font-size: 15px;
+  }
+}
