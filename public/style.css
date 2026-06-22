@@ -1384,6 +1384,165 @@ nav a[aria-current="page"] {
   padding: 14px 24px;
 }
 
+.secondary-button {
+  padding: 10px 14px;
+  color: var(--text);
+  font-weight: 600;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.secondary-button:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.product-reviews {
+  padding: 24px 0 0;
+  margin-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.product-reviews h3,
+.product-reviews h4 {
+  margin: 0;
+  color: var(--text);
+}
+
+.reviews-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reviews-heading p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.reviews-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: baseline;
+  padding: 14px 0;
+}
+
+.reviews-summary strong {
+  color: var(--text);
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.review-stars {
+  color: #f5b642;
+  letter-spacing: 1px;
+}
+
+.reviews-count,
+.review-date,
+.review-counter {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.review-item {
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.review-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.review-meta strong {
+  color: var(--text);
+}
+
+.review-item p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.show-more-reviews {
+  margin-top: 14px;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.review-label {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.rating-input {
+  display: flex;
+  gap: 4px;
+}
+
+.rating-input button {
+  width: 32px;
+  height: 32px;
+  color: var(--text-muted);
+  font-size: 1.35rem;
+  line-height: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 150ms ease, transform 150ms ease;
+}
+
+.rating-input button:hover,
+.rating-input button.active {
+  color: #f5b642;
+}
+
+.rating-input button:hover {
+  transform: translateY(-1px);
+}
+
+.review-counter {
+  align-self: flex-end;
+}
+
+.review-message {
+  min-height: 20px;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.review-message.success {
+  color: #72d88a;
+}
+
+.review-message.error {
+  color: #ff6b6b;
+}
+
 body.product-modal-open {
   overflow: hidden;
 }

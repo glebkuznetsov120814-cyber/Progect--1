@@ -40,6 +40,8 @@ const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => 
   "'": "&#39;",
 }[char]));
 
+const starText = (rating) => "★".repeat(Number(rating) || 0) + "☆".repeat(5 - (Number(rating) || 0));
+
 const setupLogin = () => {
   const form = document.getElementById("admin-login-form");
   if (!form) return;
@@ -91,14 +93,18 @@ const setupDashboard = () => {
   const productDescription = document.getElementById("product-description");
   const productFeatures = document.getElementById("product-features");
   const productFeatured = document.getElementById("product-featured");
+  const reviewsList = document.getElementById("reviews-list");
   let products = [];
   let requests = [];
   let orders = [];
+  let reviews = [];
+  let reviewFilter = "pending";
 
   const updateStats = () => {
     document.getElementById("stat-products").textContent = products.length;
     document.getElementById("stat-requests").textContent = requests.length;
     document.getElementById("stat-orders").textContent = orders.length;
+    document.getElementById("stat-reviews").textContent = reviews.length;
   };
 
   const resetProductForm = () => {
@@ -180,6 +186,56 @@ const setupDashboard = () => {
     updateStats();
   };
 
+  const updateReviewFilters = () => {
+    const pendingCount = reviews.filter((review) => review.status === "pending").length;
+    const approvedCount = reviews.filter((review) => review.status === "approved").length;
+
+    document.querySelector('[data-review-filter="pending"]').textContent = `Pending (${pendingCount})`;
+    document.querySelector('[data-review-filter="approved"]').textContent = `Approved (${approvedCount})`;
+    document.querySelector('[data-review-filter="all"]').textContent = `All (${reviews.length})`;
+
+    document.querySelectorAll(".review-filter").forEach((button) => {
+      button.classList.toggle("active", button.dataset.reviewFilter === reviewFilter);
+    });
+  };
+
+  const renderReviews = () => {
+    updateReviewFilters();
+    const filteredReviews = reviewFilter === "all"
+      ? reviews
+      : reviews.filter((review) => review.status === reviewFilter);
+
+    reviewsList.innerHTML = filteredReviews.map((review) => {
+      const status = review.status || "pending";
+      const actions = [
+        status !== "approved"
+          ? `<button class="table-action" type="button" data-review-action="approve" data-review-id="${escapeHtml(review.id)}">Approve</button>`
+          : "",
+        status !== "rejected"
+          ? `<button class="table-action" type="button" data-review-action="reject" data-review-id="${escapeHtml(review.id)}">Reject</button>`
+          : "",
+        `<button class="danger-button" type="button" data-review-action="delete" data-review-id="${escapeHtml(review.id)}">Delete</button>`,
+      ].filter(Boolean).join("");
+
+      return `
+        <article class="admin-review-card">
+          <div class="review-card-top">
+            <span class="status-badge status-${escapeHtml(status)}">${escapeHtml(status)}</span>
+            <a href="../shop.html" class="review-product-link">${escapeHtml(review.productName || review.productId)}</a>
+          </div>
+          <div class="admin-review-stars">${escapeHtml(starText(review.rating))}</div>
+          <div class="muted">
+            <strong>${escapeHtml(review.customerName)}</strong>
+            <span>${escapeHtml(formatDate(review.createdAt))}</span>
+          </div>
+          <p>${escapeHtml(review.reviewText)}</p>
+          <div class="row-actions">${actions}</div>
+        </article>
+      `;
+    }).join("") || '<p class="muted">No reviews match this filter.</p>';
+    updateStats();
+  };
+
   const loadProducts = async () => {
     products = await requestJson("/api/products");
     renderProducts();
@@ -195,9 +251,14 @@ const setupDashboard = () => {
     renderOrders();
   };
 
+  const loadReviews = async () => {
+    reviews = await requestJson("/api/admin/reviews");
+    renderReviews();
+  };
+
   const loadAll = async () => {
     try {
-      await Promise.all([loadProducts(), loadRequests(), loadOrders()]);
+      await Promise.all([loadProducts(), loadRequests(), loadOrders(), loadReviews()]);
     } catch (err) {
       if (err.message === "Unauthorized") {
         sessionStorage.removeItem(ADMIN_PASSWORD_KEY);
@@ -289,6 +350,38 @@ const setupDashboard = () => {
   document.getElementById("refresh-products").addEventListener("click", loadProducts);
   document.getElementById("refresh-requests").addEventListener("click", loadRequests);
   document.getElementById("refresh-orders").addEventListener("click", loadOrders);
+  document.getElementById("refresh-reviews").addEventListener("click", loadReviews);
+  document.querySelectorAll(".review-filter").forEach((button) => {
+    button.addEventListener("click", () => {
+      reviewFilter = button.dataset.reviewFilter;
+      renderReviews();
+    });
+  });
+  reviewsList.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-review-action]");
+
+    if (!button) {
+      return;
+    }
+
+    const { reviewAction, reviewId } = button.dataset;
+
+    if (reviewAction === "delete" && !window.confirm("Delete this review?")) {
+      return;
+    }
+
+    try {
+      const url = reviewAction === "delete"
+        ? `/api/admin/reviews/${encodeURIComponent(reviewId)}`
+        : `/api/admin/reviews/${encodeURIComponent(reviewId)}/${reviewAction}`;
+
+      await requestJson(url, { method: reviewAction === "delete" ? "DELETE" : "PUT" });
+      setMessage("reviews-message", "");
+      await loadReviews();
+    } catch (err) {
+      setMessage("reviews-message", err.message);
+    }
+  });
   document.getElementById("logout-button").addEventListener("click", () => {
     sessionStorage.removeItem(ADMIN_PASSWORD_KEY);
     window.location.href = "login.html";

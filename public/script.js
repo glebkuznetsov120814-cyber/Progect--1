@@ -629,9 +629,118 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalFeatures = document.querySelector("#product-modal-features");
   const modalPrice = document.querySelector("#product-modal-price");
   const modalAdd = document.querySelector("#product-modal-add");
+  const reviewsSummary = document.querySelector("#reviews-summary");
+  const reviewsEmpty = document.querySelector("#reviews-empty");
+  const reviewsList = document.querySelector("#reviews-list");
+  const showMoreReviews = document.querySelector("#show-more-reviews");
+  const reviewForm = document.querySelector("#review-form");
+  const reviewName = document.querySelector("#review-name");
+  const reviewText = document.querySelector("#review-text");
+  const reviewCounter = document.querySelector("#review-counter");
+  const reviewMessage = document.querySelector("#review-message");
+  const ratingInput = document.querySelector("#review-rating");
   let currentCard = null;
+  let currentProductId = "";
+  let currentRating = 0;
+  let currentReviews = [];
+  let visibleReviewCount = 5;
+
+  const formatReviewDate = (value) => {
+    const date = new Date(value);
+    return Number.isNaN(date.getTime())
+      ? ""
+      : date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  };
+
+  const starText = (rating) => {
+    const filled = Math.max(0, Math.min(5, Number(rating) || 0));
+    return "★".repeat(filled) + "☆".repeat(5 - filled);
+  };
+
+  const updateRatingInput = (rating) => {
+    currentRating = rating;
+    ratingInput.querySelectorAll("button").forEach((button) => {
+      const isActive = Number(button.dataset.rating) <= rating;
+      button.classList.toggle("active", isActive);
+      button.setAttribute("aria-checked", isActive ? "true" : "false");
+    });
+  };
+
+  const setReviewMessage = (text, type = "") => {
+    reviewMessage.textContent = text;
+    reviewMessage.className = `review-message ${type}`.trim();
+  };
+
+  const renderReviews = (data) => {
+    currentReviews = Array.isArray(data.reviews) ? data.reviews : [];
+    reviewsList.innerHTML = "";
+    reviewsEmpty.hidden = data.totalCount > 0;
+    reviewsSummary.hidden = data.totalCount === 0;
+
+    if (data.totalCount > 0) {
+      reviewsSummary.innerHTML = `
+        <strong>${Number(data.averageRating || 0).toFixed(1)}</strong>
+        <span class="review-stars">${starText(Math.round(data.averageRating || 0))}</span>
+        <span class="reviews-count">(based on ${data.totalCount} ${data.totalCount === 1 ? "review" : "reviews"})</span>
+      `;
+    }
+
+    currentReviews.slice(0, visibleReviewCount).forEach((review) => {
+      const item = document.createElement("article");
+      const meta = document.createElement("div");
+      const stars = document.createElement("span");
+      const name = document.createElement("strong");
+      const date = document.createElement("span");
+      const text = document.createElement("p");
+
+      item.className = "review-item";
+      meta.className = "review-meta";
+      stars.className = "review-stars";
+      date.className = "review-date";
+      stars.textContent = starText(review.rating);
+      name.textContent = review.customerName;
+      date.textContent = formatReviewDate(review.createdAt);
+      text.textContent = review.reviewText;
+
+      meta.append(stars, name, date);
+      item.append(meta, text);
+      reviewsList.append(item);
+    });
+
+    showMoreReviews.hidden = currentReviews.length <= visibleReviewCount;
+  };
+
+  const loadReviews = async (productId) => {
+    reviewsList.innerHTML = "";
+    reviewsSummary.hidden = true;
+    reviewsEmpty.hidden = false;
+    reviewsEmpty.textContent = "Loading reviews...";
+    showMoreReviews.hidden = true;
+
+    try {
+      const response = await fetch(`/api/reviews/${encodeURIComponent(productId)}`);
+
+      if (!response.ok) {
+        throw new Error("reviews failed");
+      }
+
+      const data = await response.json();
+      reviewsEmpty.textContent = "No reviews yet. Be the first to review!";
+      renderReviews(data);
+    } catch (err) {
+      reviewsEmpty.textContent = "Reviews are unavailable right now.";
+    }
+  };
+
+  const resetReviewForm = () => {
+    reviewForm.reset();
+    updateRatingInput(0);
+    reviewCounter.textContent = "0/500";
+    setReviewMessage("");
+  };
 
   const openProductModal = (card) => {
+    const productId = card.dataset.id;
     const name = card.querySelector(".product-name").textContent;
     const description = card.querySelector(".product-description").textContent;
     const price = card.querySelector(".product-price").textContent;
@@ -652,6 +761,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     currentCard = card;
+    currentProductId = productId;
+    visibleReviewCount = 5;
+    resetReviewForm();
+    loadReviews(productId);
     productModal.hidden = false;
     productModal.setAttribute("aria-hidden", "false");
     document.body.classList.add("product-modal-open");
@@ -664,6 +777,7 @@ document.addEventListener("DOMContentLoaded", () => {
     productModal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("product-modal-open");
     currentCard = null;
+    currentProductId = "";
 
     setTimeout(() => {
       if (productModal.hidden) {
@@ -694,5 +808,69 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     closeProductModal();
+  });
+
+  ratingInput.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-rating]");
+
+    if (!button) {
+      return;
+    }
+
+    updateRatingInput(Number(button.dataset.rating));
+    setReviewMessage("");
+  });
+
+  reviewText.addEventListener("input", () => {
+    reviewCounter.textContent = `${reviewText.value.length}/500`;
+  });
+
+  showMoreReviews.addEventListener("click", () => {
+    visibleReviewCount += 5;
+    renderReviews({
+      averageRating: currentReviews.length
+        ? currentReviews.reduce((sum, review) => sum + Number(review.rating || 0), 0) / currentReviews.length
+        : 0,
+      totalCount: currentReviews.length,
+      reviews: currentReviews,
+    });
+  });
+
+  reviewForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    setReviewMessage("");
+
+    if (!currentProductId) {
+      setReviewMessage("Choose a product before leaving a review.", "error");
+      return;
+    }
+
+    if (!reviewName.value.trim() || !currentRating || !reviewText.value.trim()) {
+      setReviewMessage("Name, rating, and review are required.", "error");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productId: currentProductId,
+          customerName: reviewName.value.trim(),
+          rating: currentRating,
+          reviewText: reviewText.value.trim(),
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit review");
+      }
+
+      resetReviewForm();
+      setReviewMessage("Thanks! Your review will appear after moderation.", "success");
+    } catch (err) {
+      setReviewMessage(err.message, "error");
+    }
   });
 });

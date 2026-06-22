@@ -190,6 +190,39 @@
             <span class="product-modal-price" id="product-modal-price"></span>
             <button class="primary-button product-modal-add" id="product-modal-add" type="button">Add to Cart</button>
           </div>
+          <section class="product-reviews" aria-labelledby="reviews-title">
+            <div class="reviews-heading">
+              <h3 id="reviews-title">Customer Reviews</h3>
+              <p id="reviews-empty">No reviews yet. Be the first to review!</p>
+            </div>
+            <div class="reviews-summary" id="reviews-summary" hidden></div>
+            <div class="reviews-list" id="reviews-list"></div>
+            <button class="secondary-button show-more-reviews" id="show-more-reviews" type="button" hidden>Show more</button>
+            <form class="review-form" id="review-form" novalidate>
+              <h4>Leave a Review</h4>
+              <div class="form-row">
+                <label for="review-name">Your name</label>
+                <input type="text" id="review-name" name="customerName" maxlength="60" required>
+              </div>
+              <div class="form-row">
+                <span class="review-label">Rating</span>
+                <div class="rating-input" id="review-rating" role="radiogroup" aria-label="Rating">
+                  <button type="button" data-rating="1" aria-label="1 star">★</button>
+                  <button type="button" data-rating="2" aria-label="2 stars">★</button>
+                  <button type="button" data-rating="3" aria-label="3 stars">★</button>
+                  <button type="button" data-rating="4" aria-label="4 stars">★</button>
+                  <button type="button" data-rating="5" aria-label="5 stars">★</button>
+                </div>
+              </div>
+              <div class="form-row">
+                <label for="review-text">Your review</label>
+                <textarea id="review-text" name="reviewText" rows="4" maxlength="500" required></textarea>
+                <span class="review-counter" id="review-counter">0/500</span>
+              </div>
+              <button class="primary-button" type="submit">Submit Review</button>
+              <p class="review-message" id="review-message" aria-live="polite"></p>
+            </form>
+          </section>
         </div>
       </div>
     </div>

@@ -8,12 +8,24 @@ const PORT = process.env.PORT || 8000;
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-const DATA_DIR = path.join(__dirname, 'data');
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const ADMIN_PASSWORD = '120814';
 
 async function readJson(filename) {
-  const content = await fs.readFile(path.join(DATA_DIR, filename), 'utf-8');
-  return JSON.parse(content);
+  const filePath = path.join(DATA_DIR, filename);
+
+  try {
+    const content = await fs.readFile(filePath, 'utf-8');
+    return JSON.parse(content);
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      await fs.mkdir(DATA_DIR, { recursive: true });
+      await fs.writeFile(filePath, '[]');
+      return [];
+    }
+
+    throw err;
+  }
 }
 
 async function writeJson(filename, data) {
@@ -31,6 +43,72 @@ app.get('/api/products', async (req, res) => {
   } catch (err) {
     console.error('Failed to read products:', err);
     res.status(500).json({ error: 'Failed to load products' });
+  }
+});
+
+app.get('/api/reviews/:productId', async (req, res) => {
+  try {
+    const reviews = await readJson('reviews.json');
+    const approvedReviews = reviews
+      .filter(review => review.productId === req.params.productId && review.status === 'approved')
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const totalCount = approvedReviews.length;
+    const averageRating = totalCount
+      ? Number((approvedReviews.reduce((sum, review) => sum + Number(review.rating || 0), 0) / totalCount).toFixed(1))
+      : 0;
+
+    res.json({ averageRating, totalCount, reviews: approvedReviews });
+  } catch (err) {
+    console.error('Failed to read reviews:', err);
+    res.status(500).json({ error: 'Failed to load reviews' });
+  }
+});
+
+app.post('/api/reviews', async (req, res) => {
+  try {
+    const { productId, customerName, rating, reviewText } = req.body || {};
+    const name = String(customerName || '').trim();
+    const text = String(reviewText || '').trim();
+    const parsedRating = Number(rating);
+
+    if (!productId || !name || rating === undefined || !text) {
+      return res.status(400).json({ error: 'Product, name, rating, and review are required' });
+    }
+
+    if (name.length > 60) {
+      return res.status(400).json({ error: 'Name must be 60 characters or less' });
+    }
+
+    if (!Number.isInteger(parsedRating) || parsedRating < 1 || parsedRating > 5) {
+      return res.status(400).json({ error: 'Rating must be an integer from 1 to 5' });
+    }
+
+    if (text.length > 500) {
+      return res.status(400).json({ error: 'Review must be 500 characters or less' });
+    }
+
+    const products = await readJson('products.json');
+    if (!products.find(product => product.id === productId)) {
+      return res.status(400).json({ error: 'Product not found' });
+    }
+
+    const reviews = await readJson('reviews.json');
+    const newReview = {
+      id: `rev_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      productId,
+      customerName: name,
+      rating: parsedRating,
+      reviewText: text,
+      createdAt: new Date().toISOString(),
+      status: 'pending',
+    };
+
+    reviews.push(newReview);
+    await writeJson('reviews.json', reviews);
+    res.status(201).json({ success: true, message: 'Review submitted for moderation' });
+  } catch (err) {
+    console.error('Failed to save review:', err);
+    res.status(500).json({ error: 'Failed to submit review' });
   }
 });
 
@@ -100,6 +178,64 @@ app.get('/api/admin/orders', requireAdmin, async (req, res) => {
     const orders = await readJson('orders.json');
     res.json(orders);
   } catch (err) { res.status(500).json({ error: 'Failed to load' }); }
+});
+
+app.get('/api/admin/reviews', requireAdmin, async (req, res) => {
+  try {
+    const [reviews, products] = await Promise.all([readJson('reviews.json'), readJson('products.json')]);
+    const productNames = new Map(products.map(product => [product.id, product.name]));
+    const withProducts = reviews
+      .map(review => ({ ...review, productName: productNames.get(review.productId) || review.productId }))
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    res.json(withProducts);
+  } catch (err) {
+    console.error('Failed to load admin reviews:', err);
+    res.status(500).json({ error: 'Failed to load reviews' });
+  }
+});
+
+async function updateReviewStatus(id, status, res) {
+  try {
+    const reviews = await readJson('reviews.json');
+    const idx = reviews.findIndex(review => review.id === id);
+
+    if (idx === -1) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+
+    reviews[idx] = { ...reviews[idx], status };
+    await writeJson('reviews.json', reviews);
+    res.json(reviews[idx]);
+  } catch (err) {
+    console.error('Failed to update review:', err);
+    res.status(500).json({ error: 'Failed to update review' });
+  }
+}
+
+app.put('/api/admin/reviews/:id/approve', requireAdmin, async (req, res) => {
+  await updateReviewStatus(req.params.id, 'approved', res);
+});
+
+app.put('/api/admin/reviews/:id/reject', requireAdmin, async (req, res) => {
+  await updateReviewStatus(req.params.id, 'rejected', res);
+});
+
+app.delete('/api/admin/reviews/:id', requireAdmin, async (req, res) => {
+  try {
+    const reviews = await readJson('reviews.json');
+    const filtered = reviews.filter(review => review.id !== req.params.id);
+
+    if (filtered.length === reviews.length) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+
+    await writeJson('reviews.json', filtered);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Failed to delete review:', err);
+    res.status(500).json({ error: 'Failed to delete review' });
+  }
 });
 
 app.post('/api/admin/products', requireAdmin, async (req, res) => {

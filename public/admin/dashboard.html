@@ -39,6 +39,10 @@
           <span id="stat-orders">0</span>
           <p>Orders</p>
         </div>
+        <div>
+          <span id="stat-reviews">0</span>
+          <p>Reviews</p>
+        </div>
       </div>
     </section>
 
@@ -46,6 +50,7 @@
       <button class="tab-button active" type="button" data-tab="products">Products</button>
       <button class="tab-button" type="button" data-tab="requests">Custom Print Requests</button>
       <button class="tab-button" type="button" data-tab="orders">Orders</button>
+      <button class="tab-button" type="button" data-tab="reviews">Reviews</button>
     </nav>
 
     <section class="tab-panel active" id="products-panel">
@@ -154,6 +159,22 @@
             <tbody id="orders-table"></tbody>
           </table>
         </div>
+      </section>
+    </section>
+
+    <section class="tab-panel" id="reviews-panel">
+      <section class="admin-card">
+        <div class="section-heading">
+          <h2>Reviews</h2>
+          <button class="secondary-button" id="refresh-reviews" type="button">Refresh</button>
+        </div>
+        <div class="review-filters" aria-label="Review filters">
+          <button class="review-filter active" type="button" data-review-filter="pending">Pending (0)</button>
+          <button class="review-filter" type="button" data-review-filter="approved">Approved (0)</button>
+          <button class="review-filter" type="button" data-review-filter="all">All</button>
+        </div>
+        <div class="admin-review-list" id="reviews-list"></div>
+        <p class="admin-message" id="reviews-message" aria-live="polite"></p>
       </section>
     </section>
   </main>

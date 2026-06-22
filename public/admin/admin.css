@@ -207,7 +207,7 @@ textarea {
 
 .admin-stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(96px, 1fr));
+  grid-template-columns: repeat(4, minmax(96px, 1fr));
   gap: 12px;
 }
 
@@ -333,6 +333,101 @@ td {
   gap: 8px;
 }
 
+.review-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.review-filter {
+  padding: 10px 14px;
+  color: var(--text-muted);
+  font-weight: 700;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.review-filter.active {
+  color: #0a0a0a;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.admin-review-list {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-review-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.review-card-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-product-link {
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.review-product-link:hover {
+  color: var(--accent);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border-radius: 999px;
+}
+
+.status-pending {
+  color: #ffd166;
+  background: rgba(255, 209, 102, 0.12);
+  border: 1px solid rgba(255, 209, 102, 0.35);
+}
+
+.status-approved {
+  color: #72d88a;
+  background: rgba(114, 216, 138, 0.12);
+  border: 1px solid rgba(114, 216, 138, 0.35);
+}
+
+.status-rejected {
+  color: var(--text-muted);
+  background: rgba(138, 138, 138, 0.12);
+  border: 1px solid rgba(138, 138, 138, 0.35);
+}
+
+.admin-review-stars {
+  color: #f5b642;
+  letter-spacing: 1px;
+}
+
+.admin-review-card p {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.5;
+}
+
 @media (max-width: 860px) {
   .admin-header,
   .dashboard-hero {
@@ -346,5 +441,6 @@ td {
 
   .admin-stats {
     width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
